@@ -1,0 +1,21 @@
+version: '3'
+services:
+  server:
+    image: your-server-image
+    ports:
+      - 8080:8080
+    networks:
+      - private-network
+
+  client1:
+    image: your-client-image
+    networks:
+      - private-network
+
+  client2:
+    image: your-client-image
+    networks:
+      - private-network
+
+networks:
+  private-network:
