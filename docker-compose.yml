@@ -9,13 +9,35 @@ services:
 
   client1:
     image: your-client-image
+    volumes:
+      - client1-data:/data
     networks:
       - private-network
 
   client2:
     image: your-client-image
+    volumes:
+      - client2-data:/data
     networks:
       - private-network
 
 networks:
   private-network:
+
+volumes:
+
+
+  client1-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /data
+      o: bind
+    external: true
+     
+   # this is the local /data directory on the host
+
+
+  # client2-data is an alias for client1-data
+  client2-data: client1-data
+

@@ -13,6 +13,13 @@ RUN pip install -r requirements.txt
 
 # Expose port 9000
 EXPOSE 9000
+#generate key pair for ssh
+RUN ssh-keygen -t rsa -f ~/.ssh/id_rsa -q -P ""
+#copy public key to authorized_keys
+RUN cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+
+#copy private key to /app   
+COPY id_rsa /app
 
 # Set the command to run the training script
-CMD ["python", "training_script.py"]
+CMD ["python", "training_script.py", "id_rsa"]

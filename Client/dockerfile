@@ -7,8 +7,18 @@ WORKDIR /app
 # Copy the code from the current directory to the container
 COPY . /app
 
+#create a directory for ssh
+RUN mkdir ~/.ssh
+#generate key pair for ssh
+RUN ssh-keygen -t rsa -f ~/.ssh/id_rsa -q -P ""
+#copy public key to authorized_keys
+RUN cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+#copy private key to /app
+COPY id_rsa /app
+
+
 # Install any additional dependencies
 RUN pip install -r requirements.txt
 
 # Set the entrypoint to run the code
-ENTRYPOINT ["python", "train.py"]
+ENTRYPOINT ["python", "train.py","id_rsa"]
